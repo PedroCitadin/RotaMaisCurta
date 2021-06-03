@@ -100,6 +100,7 @@ public class TelaConfiguracoes extends JFrame {
         }
         config = new Configuracao(txtPasta.getText(), txtSucesso.getText(), txtErro.getText(), caixaSelecao.isSelected());
         config.configuraSistema();
+        this.dispose();
     }
 
 }

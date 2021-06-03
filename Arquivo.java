@@ -153,4 +153,8 @@ public class Arquivo {
         }
         return f3;
     }
+public void deletaArquivo(Arquivo arq){
+        File f = new File(arq.getNome(), arq.getEndereco());
+        f.delete();
+    }
 }
