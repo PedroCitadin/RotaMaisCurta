@@ -69,7 +69,7 @@ public class Configuracao {
     }
 
     public void configuraSistema() throws IOException {
-
+        arq.criaDiretorio(arq.getEndereco());
         arq.criaDiretorio(pasta);
         arq.criaArquivo(arq);
         arq.criaDiretorio(sucesso);

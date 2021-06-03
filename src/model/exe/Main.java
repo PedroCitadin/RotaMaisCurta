@@ -15,6 +15,7 @@ public class Main {
         arq.setNome("config.txt");
         arq.setEndereco("config//");
         if (arq.verificaExistencia()) {
+            
             TelaBusca tb = new TelaBusca();
             tb.setVisible(true);
         } else {
