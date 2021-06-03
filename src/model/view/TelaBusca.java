@@ -56,7 +56,7 @@ public class TelaBusca extends JFrame {
         setResizable(false);
         setTitle("Buscar Melhor Caminho");
         setLayout(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         criaComponentes();
     }

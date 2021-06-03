@@ -32,11 +32,23 @@ public class TelaConfiguracoes extends JFrame {
         setResizable(false);
         setTitle("Configuração");
         setLayout(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         criaComponentes();
 
     }
-
+    public TelaConfiguracoes(Configuracao conf) throws HeadlessException, IOException {
+        setSize(300, 200);
+        setResizable(false);
+        setTitle("Configuração");
+        setLayout(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        criaComponentes();
+        conf.pegaConfiguracao();
+        txtPasta.setText(conf.getPasta());
+        txtSucesso.setText(conf.getSucesso());
+        txtErro.setText(conf.getErro());
+        caixaSelecao.setSelected(conf.isRotaAuto());
+    }
     public void criaComponentes() {
         labelPasta = new JLabel("Pasta:");
         labelPasta.setBounds(10, 13, 40, 15);
