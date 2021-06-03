@@ -27,7 +27,7 @@ import model.bean.Rota;
  * @author Pedro Citadin Coelho
  */
 public class TelaBusca extends JFrame {
-
+    private Arquivo arq;
     private JLabel lblBuscar;
     private JTextField txtBuscar;
     private JButton buscar;
@@ -192,6 +192,8 @@ public class TelaBusca extends JFrame {
                     processarActionPerformed(evt);
                 } catch (InvalidAlgorithmParameterException ex) {
                     Logger.getLogger(TelaBusca.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(TelaBusca.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -232,19 +234,24 @@ public class TelaBusca extends JFrame {
          JFileChooser fc = new JFileChooser();
          fc.setCurrentDirectory(new File(config.getPasta()));
          fc.showOpenDialog(this);
-         if (fc.getSelectedFile().getAbsolutePath()!=null) {
+        
+         if (fc.getSelectedFile()!=null) {
               txtBuscar.setText(fc.getSelectedFile().getAbsolutePath());
         }
     }
     
     private void buscarActionPerformed(ActionEvent evt) throws IOException{
-        File f = new File(txtBuscar.getText());
-        Arquivo arq = new Arquivo(f);
-        List<String> lr = arq.pegalistaLinhas(arq);
-        for (int i = 0; i < lr.size(); i++) {
+        if (!txtBuscar.getText().isEmpty()) {
+            File f = new File(txtBuscar.getText());
+            arq = new Arquivo(f);
+            List<String> lr = arq.pegalistaLinhas(arq);
+            for (int i = 0; i < lr.size(); i++) {
             String linha[] = lr.get(i).split(";;;;;");
             DefaultTableModel dtm = (DefaultTableModel) tabelaRotas.getModel();
             dtm.addRow(new Object[]{linha[0], linha[1], linha[2], linha[3], linha[4]});
+        }
+        }else{
+            JOptionPane.showMessageDialog(null, "Por favor informe o caminho desejado", "Alerta", JOptionPane.WARNING_MESSAGE);
         }
         
     }
@@ -273,7 +280,9 @@ public class TelaBusca extends JFrame {
         }
     }
     
-    private void processarActionPerformed(ActionEvent evt) throws InvalidAlgorithmParameterException{
+    private void processarActionPerformed(ActionEvent evt) throws InvalidAlgorithmParameterException, IOException{
+        Configuracao config = new Configuracao();
+        config.pegaConfiguracao();
         Map<Integer, String> vertices = new HashMap<Integer, String>();
         for (int i = 0; i < tabelaRotas.getRowCount(); i++) {
             if (!vertices.containsKey(Integer.parseInt((String) tabelaRotas.getValueAt(i, 0)))) {
@@ -293,7 +302,9 @@ public class TelaBusca extends JFrame {
         int fim = Integer.parseInt(JOptionPane.showInputDialog("Informe o código da cidade de destino: "));
         List<Integer> caminho = gr.caminhoMinimo(inicio, fim);
         String trilha = "";
-        
+        if (caminho.isEmpty()) {
+            arq.moveArquivo(arq, config.getErro());
+        }else{
         for (int i = 0; i < caminho.size(); i++) {
             if(i!=caminho.size()-1){
                 trilha += vertices.get(caminho.get(i)) +" --> ";
@@ -308,5 +319,7 @@ public class TelaBusca extends JFrame {
            UIManager.put("OptionPane.minimumSize", new Dimension(600, 50));
 
           JOptionPane.showMessageDialog(null, trilha, "Caminho mais curto", JOptionPane.INFORMATION_MESSAGE);
+          arq.moveArquivo(arq, config.getSucesso());
+    }
     }
 }
