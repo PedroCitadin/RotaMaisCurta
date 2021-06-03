@@ -1,4 +1,3 @@
-
 package model.bean;
 
 /**
@@ -6,6 +5,7 @@ package model.bean;
  * @author Pedro Citadin Coelho
  */
 public class Rota {
+
     private int codOrigem;
     private int codDestino;
     private int km;
@@ -62,7 +62,8 @@ public class Rota {
 
     public Rota() {
     }
-    public String retornaEscrita(){
-        return this.codOrigem+";;;;;"+this.cidadeOrigem+";;;;;"+this.codDestino+";;;;;"+this.cidadeDestino+";;;;;"+this.km;
+
+    public String retornaEscrita() {
+        return this.codOrigem + ";;;;;" + this.cidadeOrigem + ";;;;;" + this.codDestino + ";;;;;" + this.cidadeDestino + ";;;;;" + this.km;
     }
 }

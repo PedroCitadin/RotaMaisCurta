@@ -1,4 +1,3 @@
-
 package model.exe;
 
 import model.Arquivo;
@@ -10,6 +9,7 @@ import model.view.TelaConfiguracoes;
  * @author Pedro Citadin Coelho
  */
 public class Main {
+
     public static void main(String[] args) {
         Arquivo arq = new Arquivo();
         arq.setNome("config.txt");
@@ -17,11 +17,10 @@ public class Main {
         if (arq.verificaExistencia()) {
             TelaBusca tb = new TelaBusca();
             tb.setVisible(true);
-        }else{
+        } else {
             TelaConfiguracoes tc = new TelaConfiguracoes();
             tc.setVisible(true);
         }
-        
-        
+
     }
 }

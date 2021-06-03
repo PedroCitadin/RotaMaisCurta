@@ -1,4 +1,3 @@
-
 package model.view;
 
 import java.awt.Color;
@@ -16,7 +15,8 @@ import model.bean.Configuracao;
  *
  * @author Pedro Citadin Coelho
  */
-public class TelaConfiguracoes extends JFrame{
+public class TelaConfiguracoes extends JFrame {
+
     private JLabel labelPasta;
     private JTextField txtPasta;
     private JLabel labelSucesso;
@@ -26,6 +26,7 @@ public class TelaConfiguracoes extends JFrame{
     private JButton botao;
     private JCheckBox caixaSelecao;
     private Configuracao config;
+
     public TelaConfiguracoes() throws HeadlessException {
         setSize(300, 200);
         setResizable(false);
@@ -33,28 +34,29 @@ public class TelaConfiguracoes extends JFrame{
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         criaComponentes();
-    
+
     }
-    public void criaComponentes(){
+
+    public void criaComponentes() {
         labelPasta = new JLabel("Pasta:");
         labelPasta.setBounds(10, 13, 40, 15);
         getContentPane().add(labelPasta);
         txtPasta = new JTextField();
-        
+
         txtPasta.setBounds(80, 10, 200, 20);
         getContentPane().add(txtPasta);
         labelSucesso = new JLabel("Sucesso:");
         labelSucesso.setBounds(10, 43, 70, 15);
         getContentPane().add(labelSucesso);
         txtSucesso = new JTextField();
-        
+
         txtSucesso.setBounds(80, 40, 140, 20);
         getContentPane().add(txtSucesso);
         labelErro = new JLabel("Erro:");
         labelErro.setBounds(10, 73, 40, 15);
         getContentPane().add(labelErro);
         txtErro = new JTextField();
-        
+
         txtErro.setBounds(80, 70, 140, 20);
         getContentPane().add(txtErro);
         caixaSelecao = new JCheckBox("Rota Automática");
@@ -74,23 +76,18 @@ public class TelaConfiguracoes extends JFrame{
         botao.setBounds(100, 130, 90, 25);
         getContentPane().add(botao);
     }
-    
+
     private void botaoActionPerformed(ActionEvent evt) throws IOException {
         ///Evento do botão
-       if(txtPasta.getText().isEmpty()){
-           JOptionPane.showMessageDialog(null, "Campo Pasta deve ser preenchido","", JOptionPane.ERROR_MESSAGE);
-       }else if(txtSucesso.getText().isEmpty()){
-           JOptionPane.showMessageDialog(null, "Campo Sucesso deve ser preenchido","", JOptionPane.ERROR_MESSAGE);
-       }else if(txtErro.getText().isEmpty()){
-           JOptionPane.showMessageDialog(null, "Campo Erro deve ser preenchido","", JOptionPane.ERROR_MESSAGE);
-       }
-       config = new Configuracao(txtPasta.getText(), txtSucesso.getText(), txtErro.getText(), caixaSelecao.isSelected());
-       config.configuraSistema();
+        if (txtPasta.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo Pasta deve ser preenchido", "", JOptionPane.ERROR_MESSAGE);
+        } else if (txtSucesso.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo Sucesso deve ser preenchido", "", JOptionPane.ERROR_MESSAGE);
+        } else if (txtErro.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo Erro deve ser preenchido", "", JOptionPane.ERROR_MESSAGE);
+        }
+        config = new Configuracao(txtPasta.getText(), txtSucesso.getText(), txtErro.getText(), caixaSelecao.isSelected());
+        config.configuraSistema();
     }
-    
-     
-		
-		
-		
-   
+
 }

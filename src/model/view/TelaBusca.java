@@ -27,6 +27,7 @@ import model.bean.Rota;
  * @author Pedro Citadin Coelho
  */
 public class TelaBusca extends JFrame {
+
     private Arquivo arq;
     private JLabel lblBuscar;
     private JTextField txtBuscar;
@@ -72,8 +73,8 @@ public class TelaBusca extends JFrame {
         buscar = new JButton("Buscar");
         buscar.setFont(new Font("", 1, 14));
         buscar.setBounds(435, 15, 120, 30);
-        buscar.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        buscar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 try {
                     buscarActionPerformed(evt);
                 } catch (IOException ex) {
@@ -186,8 +187,8 @@ public class TelaBusca extends JFrame {
         this.getContentPane().add(salvar);
         processar = new JButton("PROCESSAR");
         processar.setBounds(670, 500, 110, 30);
-        processar.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        processar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 try {
                     processarActionPerformed(evt);
                 } catch (InvalidAlgorithmParameterException ex) {
@@ -228,33 +229,35 @@ public class TelaBusca extends JFrame {
 
         }
     }
-    private void buscarAqrActionPerformed(ActionEvent evt) throws IOException{
-         Configuracao config = new Configuracao();
-         config.pegaConfiguracao();
-         JFileChooser fc = new JFileChooser();
-         fc.setCurrentDirectory(new File(config.getPasta()));
-         fc.showOpenDialog(this);
-        
-         if (fc.getSelectedFile()!=null) {
-              txtBuscar.setText(fc.getSelectedFile().getAbsolutePath());
+
+    private void buscarAqrActionPerformed(ActionEvent evt) throws IOException {
+        Configuracao config = new Configuracao();
+        config.pegaConfiguracao();
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File(config.getPasta()));
+        fc.showOpenDialog(this);
+
+        if (fc.getSelectedFile() != null) {
+            txtBuscar.setText(fc.getSelectedFile().getAbsolutePath());
         }
     }
-    
-    private void buscarActionPerformed(ActionEvent evt) throws IOException{
+
+    private void buscarActionPerformed(ActionEvent evt) throws IOException {
         if (!txtBuscar.getText().isEmpty()) {
             File f = new File(txtBuscar.getText());
             arq = new Arquivo(f);
             List<String> lr = arq.pegalistaLinhas(arq);
             for (int i = 0; i < lr.size(); i++) {
-            String linha[] = lr.get(i).split(";;;;;");
-            DefaultTableModel dtm = (DefaultTableModel) tabelaRotas.getModel();
-            dtm.addRow(new Object[]{linha[0], linha[1], linha[2], linha[3], linha[4]});
-        }
-        }else{
+                String linha[] = lr.get(i).split(";;;;;");
+                DefaultTableModel dtm = (DefaultTableModel) tabelaRotas.getModel();
+                dtm.addRow(new Object[]{linha[0], linha[1], linha[2], linha[3], linha[4]});
+            }
+        } else {
             JOptionPane.showMessageDialog(null, "Por favor informe o caminho desejado", "Alerta", JOptionPane.WARNING_MESSAGE);
         }
-        
+
     }
+
     private void salvarActionPerformed(ActionEvent evt) throws IOException {
         Configuracao config = new Configuracao();
         config.pegaConfiguracao();
@@ -272,31 +275,31 @@ public class TelaBusca extends JFrame {
         }
         r.criaArquivo(r);
         for (int i = 0; i < rotas.size(); i++) {
-            if (i==0) {
+            if (i == 0) {
                 r.escreveNoArquivo(r, rotas.get(i).retornaEscrita());
-            }else{
-            r.escreveNaProxiLinhaDoArquivo(r, rotas.get(i).retornaEscrita());
+            } else {
+                r.escreveNaProxiLinhaDoArquivo(r, rotas.get(i).retornaEscrita());
             }
         }
     }
-    
-    private void processarActionPerformed(ActionEvent evt) throws InvalidAlgorithmParameterException, IOException{
+
+    private void processarActionPerformed(ActionEvent evt) throws InvalidAlgorithmParameterException, IOException {
         Configuracao config = new Configuracao();
         config.pegaConfiguracao();
         Map<Integer, String> vertices = new HashMap<Integer, String>();
         for (int i = 0; i < tabelaRotas.getRowCount(); i++) {
             if (!vertices.containsKey(Integer.parseInt((String) tabelaRotas.getValueAt(i, 0)))) {
-                vertices.put(Integer.parseInt((String) tabelaRotas.getValueAt(i, 0)),(String) tabelaRotas.getValueAt(i, 1));
+                vertices.put(Integer.parseInt((String) tabelaRotas.getValueAt(i, 0)), (String) tabelaRotas.getValueAt(i, 1));
             }
-            if(!vertices.containsKey(Integer.parseInt((String) tabelaRotas.getValueAt(i, 2)))){
-                 vertices.put(Integer.parseInt((String) tabelaRotas.getValueAt(i, 2)),(String) tabelaRotas.getValueAt(i, 3));
+            if (!vertices.containsKey(Integer.parseInt((String) tabelaRotas.getValueAt(i, 2)))) {
+                vertices.put(Integer.parseInt((String) tabelaRotas.getValueAt(i, 2)), (String) tabelaRotas.getValueAt(i, 3));
             }
-          
+
         }
-        
+
         Grafo gr = new Grafo(vertices.size());
         for (int i = 0; i < tabelaRotas.getRowCount(); i++) {
-            gr.criaAresta(Integer.parseInt((String) tabelaRotas.getValueAt(i, 0)), Integer.parseInt((String)tabelaRotas.getValueAt(i, 2)),Integer.parseInt((String) tabelaRotas.getValueAt(i, 4)));
+            gr.criaAresta(Integer.parseInt((String) tabelaRotas.getValueAt(i, 0)), Integer.parseInt((String) tabelaRotas.getValueAt(i, 2)), Integer.parseInt((String) tabelaRotas.getValueAt(i, 4)));
         }
         int inicio = Integer.parseInt(JOptionPane.showInputDialog("Informe o código da cidade de partida: "));
         int fim = Integer.parseInt(JOptionPane.showInputDialog("Informe o código da cidade de destino: "));
@@ -304,22 +307,20 @@ public class TelaBusca extends JFrame {
         String trilha = "";
         if (caminho.isEmpty()) {
             arq.moveArquivo(arq, config.getErro());
-        }else{
-        for (int i = 0; i < caminho.size(); i++) {
-            if(i!=caminho.size()-1){
-                trilha += vertices.get(caminho.get(i)) +" --> ";
-            }else{
-                 trilha += vertices.get(caminho.get(i));
-            }
-               
-            
-            
-        }
-        trilha += " - Distância total: "+gr.getCustoTotal(caminho)+" Km";
-           UIManager.put("OptionPane.minimumSize", new Dimension(600, 50));
+        } else {
+            for (int i = 0; i < caminho.size(); i++) {
+                if (i != caminho.size() - 1) {
+                    trilha += vertices.get(caminho.get(i)) + " --> ";
+                } else {
+                    trilha += vertices.get(caminho.get(i));
+                }
 
-          JOptionPane.showMessageDialog(null, trilha, "Caminho mais curto", JOptionPane.INFORMATION_MESSAGE);
-          arq.moveArquivo(arq, config.getSucesso());
-    }
+            }
+            trilha += " - Distância total: " + gr.getCustoTotal(caminho) + " Km";
+            UIManager.put("OptionPane.minimumSize", new Dimension(600, 50));
+
+            JOptionPane.showMessageDialog(null, trilha, "Caminho mais curto", JOptionPane.INFORMATION_MESSAGE);
+            arq.moveArquivo(arq, config.getSucesso());
+        }
     }
 }
